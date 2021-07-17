@@ -42,7 +42,7 @@ def visualize(df):
     # Call the method substitute from credit_data_actual_values.py to display the real world values
     df_vis = substitute(df_vis)
     df_vis['Cost Matrix(Risk)'].value_counts().plot(kind='bar')
-visualize(df)
+#visualize(df)
 
 
 # In[5]:
@@ -127,7 +127,17 @@ load_model()
 
 
 # In[11]:
-
+def predictDict(query_data):
+    x = [list(query_data.values())]
+    x=pd.DataFrame(x)
+    x = ct.transform(x)
+    prediction = clf.predict(x)[0]
+    print("Model prediction:", prediction)
+    if prediction == 1:
+        print("Status: THIS PERSON IS ELIGIBLE FOR LOAN")
+    else:
+        print("Status: THIS PERSON IS NOT ELIGIBLE FOR LOAN")
+    return prediction
 
 def predict(query_data):
     x = [list(query_data.dict().values())]
@@ -139,6 +149,8 @@ def predict(query_data):
     prediction = clf.predict(x)[0]
     print("Model prediction:", prediction)
     return prediction
+
+
 
 
 
