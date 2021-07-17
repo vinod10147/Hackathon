@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[139]:
+# In[1]:
 
 
 from sklearn import datasets
@@ -20,13 +20,13 @@ import copy
 import pandas as pd
 
 
-# In[5]:
+# In[2]:
 
 
 clf = GradientBoostingClassifier()
 
 
-# In[115]:
+# In[3]:
 
 
 df=read_csv("http://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data",               sep=" ",header=None)
@@ -34,7 +34,7 @@ df=read_csv("http://archive.ics.uci.edu/ml/machine-learning-databases/statlog/ge
 df.head()
 
 
-# In[102]:
+# In[4]:
 
 
 def visualize(df):
@@ -45,14 +45,14 @@ def visualize(df):
 visualize(df)
 
 
-# In[80]:
+# In[5]:
 
 
 df= df.iloc[:, list(range(6)) + [-1]]
 df
 
 
-# In[157]:
+# In[6]:
 
 
 # split the data frame into inputs and outputs
@@ -62,7 +62,7 @@ y= df.iloc[:,[-1]]
 X
 
 
-# In[154]:
+# In[7]:
 
 
 # Categorical features has to be converted into integer values for the model to process. 
@@ -76,16 +76,16 @@ print(ct)
 # enc = OneHotEncoder(handle_unknown='ignore')
 # enc.fit(X)
 
-# print(X)
+print(X)
 X = ct.fit_transform(X)
 # label encode the target variable to have the classes 0 and 1
-y = LabelEncoder().fit_transform(y)
+#y = LabelEncoder().fit_transform(y)
 print(X.shape, y.shape, Counter(y))
 
-print(X)
+print(y)
 
 
-# In[106]:
+# In[8]:
 
 
 #Splitting the data for training and testing
@@ -98,7 +98,7 @@ X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2)
 
 
 
-# In[107]:
+# In[9]:
 
 
 # function to train and load the model during startup
@@ -126,33 +126,20 @@ def load_model():
 load_model()
 
 
-# In[160]:
+# In[11]:
 
 
 def predict(query_data):
-    return 1
-    x = [list(query_data.values())]
+    x = [list(query_data.dict().values())]
     x=pd.DataFrame(x)
     print(x)
-    cat_ix = X.select_dtypes(include=['object', 'bool']).columns
     print(cat_ix)
-# one hot encode categorical features only
-    ct = ColumnTransformer([('o',OneHotEncoder(),cat_ix)], remainder='passthrough')
-    x = ct.fit_transform(x)
-    print(x)
-    prediction = clf.predict([x])[0]
-    print(f"Model prediction: {classes[prediction]}")
-    return classes[prediction]
+    x = ct.transform(x)
+    print(x.shape)
+    prediction = clf.predict(x)[0]
+    print("Model prediction:", prediction)
+    return prediction
 
-query_data={
-       "status_of_existing_checking_account": 'A11',
-        "duration_in_month": '6',
-        "credit_history":'A34',
-        "purpose": 'A43',
-        "credit_amount": '1169',
-        "savings_account_bonds": 'A65',
-      }
-predict(query_data)
 
 
 # In[ ]:

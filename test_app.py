@@ -15,7 +15,7 @@ def test_pred_good_risk():
     # defining a sample payload for the testcase
     # test values are changed
     payload = {
-        "status_of_existing_checking_account": 'A11',
+        "status_of_existing_checking_account": 'A11',   
         "duration_in_month": 6,
         "credit_history":	'A34',
         "purpose": 'A43',
@@ -50,5 +50,5 @@ def test_pred_bad_risk():
         # asserting the correct response is received
         assert response.status_code == 200
         #assert response.json() == {"credit_status": "Bad Risk"}
-        assert response.json()["credit_status"]== 1
+        assert response.json()["credit_status"]== 2
         #assert response.json()["timstamp"] != ''
