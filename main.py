@@ -25,7 +25,7 @@ class QueryIn(BaseModel):
 # class which is returned in the response
 class QueryOut(BaseModel):
     credit_status: int
-    #timstamp: str 
+    description: str 
 
 # Route definitions
 @app.get("/ping")
@@ -39,7 +39,8 @@ def ping():
 # Payload: QueryIn containing the parameters
 # Response: QueryOut containing the Credit  predicted (200)
 def predict_credit(query_data: QueryIn):
-    output = {"credit_status": predict(query_data)} 
+    p=predict(query_data)
+    output = {"credit_status": p,"description":"Eligible for loan" if p==1  else "Not Eligible for loan"} 
     print('Output value is : ',output)
     return output
 

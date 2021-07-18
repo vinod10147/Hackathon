@@ -95,8 +95,15 @@ X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2)
 # In[ ]:
 
 
-
-
+# referred from h20 module(Model_Selection.ipynb)
+importance = {
+        "status_of_existing_checking_account": 0.45,
+        "duration_in_month": 0.43,
+        "credit_history": 0.25,
+        "purpose": 0.45,
+        "credit_amount": 0.41,
+        "savings_account_bonds": 0.24
+      }
 
 # In[9]:
 
@@ -133,6 +140,7 @@ def predictDict(query_data):
     x = ct.transform(x)
     prediction = clf.predict(x)[0]
     print("Model prediction:", prediction)
+    print("Based on these parameters "+ str(importance))
     if prediction == 1:
         print("Status: THIS PERSON IS ELIGIBLE FOR LOAN")
     else:
